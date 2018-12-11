@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from environments import Environment
+from yamz import Environment
 
 
 class EnvironmentTestCase(unittest.TestCase):

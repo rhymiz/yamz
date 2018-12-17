@@ -44,8 +44,8 @@ def _load(path: str, environment: str) -> dict:
 
 
 class Environment(object):
-    def __init__(self, base_dir: str, filename: str):
-        self.path = os.path.join(base_dir, filename)
+    def __init__(self, path: str):
+        self.path = path
         self._loaded = False
         self._settings = {}
 

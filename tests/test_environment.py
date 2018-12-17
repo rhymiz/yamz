@@ -8,8 +8,9 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def setUp(self):
         base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.environment = Environment(base, "settings.yaml")
-        self.bad_environment = Environment("/fake/path", "settings.yaml")
+        path = os.path.join(base, 'settings.yaml')
+        self.environment = Environment(path)
+        self.bad_environment = Environment("/fake/path/settings.yaml")
 
     def test_file_not_found(self):
         with self.assertRaises(EnvironmentError) as e:

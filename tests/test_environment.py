@@ -2,6 +2,7 @@ import os
 import unittest
 
 from yamz import Environment
+from yamz.environment import YamzEnvironmentError
 
 
 class EnvironmentTestCase(unittest.TestCase):
@@ -13,15 +14,17 @@ class EnvironmentTestCase(unittest.TestCase):
         self.bad_environment = Environment("/fake/path/settings.yaml")
 
     def test_file_not_found(self):
-        with self.assertRaises(EnvironmentError) as e:
+        with self.assertRaises(YamzEnvironmentError) as exc:
             self.bad_environment.load("global")
-            self.assertEqual(e.msg, "/fake/path/settings.yaml was not found!")
+
+        self.assertEqual(exc.exception.args[0], "/fake/path/settings.yaml was not found!")
 
     def test_environment_not_loaded(self):
-        with self.assertRaises(EnvironmentError) as e:
-            home = self.bad_environment.TEST
-            self.assertEqual(e.msg, "Tried to access key `HOME` before "
-                                    "environment was loaded!")
+        with self.assertRaises(YamzEnvironmentError) as exc:
+            home = self.bad_environment.HOME
+
+        self.assertEqual(exc.exception.args[0], "Tried to access key `%s` "
+                                                "before environment was loaded!" % 'HOME')
 
     def test_load_environment(self):
         os.environ.setdefault("TEST", "/fake/home")

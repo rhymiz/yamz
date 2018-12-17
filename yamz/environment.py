@@ -6,9 +6,13 @@ from yaml import load
 GLOBAL_KEY_NAME = 'global'
 
 
+class YamzEnvironmentError(RuntimeError):
+    pass
+
+
 def _load_config(path: str) -> dict:
     if not Path(path).exists():
-        raise EnvironmentError("%s was not found!" % path)
+        raise YamzEnvironmentError("%s was not found!" % path)
 
     with open(path, 'r') as f:
         config = load(f.read())
@@ -31,8 +35,8 @@ def _build(conf: dict) -> dict:
 def _load(path: str, environment: str) -> dict:
     conf = _load_config(path)
     if environment not in conf:
-        raise EnvironmentError("environment %s does not exist "
-                               "in settings.yaml" % environment)
+        raise YamzEnvironmentError("environment %s does not exist "
+                                   "in settings.yaml" % environment)
 
     defaults = {}
     if GLOBAL_KEY_NAME in conf:
@@ -55,6 +59,6 @@ class Environment(object):
 
     def __getattr__(self, key: str) -> str:
         if not self._loaded:
-            raise EnvironmentError("Tried to access key `%s` before "
-                                   "environment was loaded!" % key)
+            raise YamzEnvironmentError("Tried to access key `%s` before "
+                                       "environment was loaded!" % key)
         return self._settings[key]

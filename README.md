@@ -4,7 +4,7 @@ An easy way to manage environment specific configuration in Python using PyYAML.
 
 ### Requirements
 - Python >=3.6
-- PyYAML==3.13
+- PyYAML==4.2b4
 
 
 ### Why Yamz?

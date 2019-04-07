@@ -3,7 +3,7 @@ An easy way to manage environment specific configuration in Python using PyYAML.
 
 
 ### Requirements
-- Python >=3.6
+- Python >=3.5
 - PyYAML >=5.1
 
 
@@ -41,3 +41,7 @@ prod_env = env.load("production")
 
 prod_env.MYSQL_DB_HOST
 ```
+
+### Contributions
+If you'd like to contribute and make Yamz better, feel free to open up a PR.
+I'll review it at my earliest convenience!

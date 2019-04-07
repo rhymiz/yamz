@@ -17,7 +17,7 @@ setup(name='yamz',
       license='MIT',
       python_requires='>=3.5',
       install_requires=[
-          'PyYAML>=4.2b4'
+          'PyYAML>=5.1'
       ],
       classifiers=[
           "Programming Language :: Python :: 3",

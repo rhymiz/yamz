@@ -1,7 +1,16 @@
 import os
+import logging
 from pathlib import Path
 
-from yaml import load
+import yaml
+
+FORMAT = '%(asctime)s %(levelname)s %(name)s - %(message)s'
+
+logging.basicConfig(format=FORMAT)
+
+logger = logging.getLogger("Yamz")
+logger.setLevel(logging.INFO)
+
 
 GLOBAL_KEY_NAME = 'global'
 
@@ -15,20 +24,24 @@ def _load_config(path: str) -> dict:
         raise YamzEnvironmentError("%s was not found!" % path)
 
     with open(path, 'r') as f:
-        config = load(f.read())
+        config = yaml.full_load(f.read())
     return config
 
 
-def _parse_value(key: str, value: str) -> str:
+def _parse_value(value: str) -> str:
     if value.startswith("$"):
-        return os.environ.get(key, value)
+        env_key = value[1:]
+        env_value = os.environ.get(env_key)
+        if not env_value:
+            logger.info("Environment variable '{0}' was not found".format(env_key))
+        return env_value
     return value
 
 
 def _build(conf: dict) -> dict:
     parsed_conf = {}
     for k, v in conf.items():
-        parsed_conf[k] = _parse_value(k, v)
+        parsed_conf[k] = _parse_value(v)
     return parsed_conf
 
 

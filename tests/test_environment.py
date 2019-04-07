@@ -21,7 +21,7 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def test_environment_not_loaded(self):
         with self.assertRaises(YamzEnvironmentError) as exc:
-            home = self.bad_environment.HOME
+            _ = self.bad_environment.HOME
 
         self.assertEqual(exc.exception.args[0], "Tried to access key `%s` "
                                                 "before environment was loaded!" % 'HOME')
@@ -29,4 +29,5 @@ class EnvironmentTestCase(unittest.TestCase):
     def test_load_environment(self):
         os.environ.setdefault("TEST", "/fake/home")
         self.environment.load("global")
+        print(self.environment._settings)
         self.assertEqual(self.environment.TEST, "/fake/home")

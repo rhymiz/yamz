@@ -1,17 +1,18 @@
 import os
+import pathlib
 import unittest
 
-from yamz import Environment
+from yamz import Yamz
 from yamz.environment import YamzEnvironmentError
 
 
-class EnvironmentTestCase(unittest.TestCase):
+class YamzTestCase(unittest.TestCase):
 
     def setUp(self):
-        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        base = os.path.abspath(pathlib.Path(__file__).parent)
         path = os.path.join(base, 'settings.yaml')
-        self.environment = Environment(path)
-        self.bad_environment = Environment("/fake/path/settings.yaml")
+        self.environment = Yamz(path)
+        self.bad_environment = Yamz("/fake/path/settings.yaml")
 
     def test_file_not_found(self):
         with self.assertRaises(YamzEnvironmentError) as exc:
@@ -29,5 +30,5 @@ class EnvironmentTestCase(unittest.TestCase):
     def test_load_environment(self):
         os.environ.setdefault("TEST", "/fake/home")
         self.environment.load("global")
-        print(self.environment._settings)
         self.assertEqual(self.environment.TEST, "/fake/home")
+        self.assertEqual(self.environment.TEST_NUM, 12)

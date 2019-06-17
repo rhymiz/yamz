@@ -30,13 +30,13 @@ All the other names I managed to think of were already taken, so... here we are.
 ```python
 import os
 
-from yamz import Environment
+from yamz import Yamz
 
 
 base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 path = os.path.join(base, 'settings.yaml')
 
-env = Environment(path)
+env = Yamz(path)
 prod_env = env.load("production")
 
 prod_env.MYSQL_DB_HOST

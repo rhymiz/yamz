@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='yamz',
-      version='0.1.0',
+      version='0.1.1',
       description='An easy way to manage environment specific configuration',
       long_description=long_description,
       author='Lemuel Boyce',

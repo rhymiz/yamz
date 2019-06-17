@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from pathlib import Path
 
 import yaml
@@ -10,7 +10,6 @@ logging.basicConfig(format=FORMAT)
 
 logger = logging.getLogger("Yamz")
 logger.setLevel(logging.INFO)
-
 
 GLOBAL_KEY_NAME = 'global'
 
@@ -29,7 +28,7 @@ def _load_config(path: str) -> dict:
 
 
 def _parse_value(value: str) -> str:
-    if value.startswith("$"):
+    if isinstance(value, str) and value.startswith("$"):
         env_key = value[1:]
         env_value = os.environ.get(env_key)
         if not env_value:
@@ -61,6 +60,8 @@ def _load(path: str, environment: str) -> dict:
 
 
 class Environment(object):
+    """Will be deprecated in future versions"""
+
     def __init__(self, path: str):
         self.path = path
         self._loaded = False
@@ -75,3 +76,7 @@ class Environment(object):
             raise YamzEnvironmentError("Tried to access key `%s` before "
                                        "environment was loaded!" % key)
         return self._settings[key]
+
+
+class Yamz(Environment):
+    pass

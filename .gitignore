@@ -4,3 +4,4 @@
 build/*
 dist/*
 yamz.egg-info/*
+.idea

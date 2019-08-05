@@ -56,6 +56,7 @@ def _load(path: str, environment: str) -> dict:
 
     env = _build(conf[environment])
     defaults.update(env)
+    defaults['YAMZ_ENV'] = environment
     return defaults
 
 

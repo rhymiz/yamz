@@ -32,3 +32,4 @@ class YamzTestCase(unittest.TestCase):
         self.environment.load("global")
         self.assertEqual(self.environment.TEST, "/fake/home")
         self.assertEqual(self.environment.TEST_NUM, 12)
+        self.assertEqual(self.environment.YAMZ_ENV, 'global')

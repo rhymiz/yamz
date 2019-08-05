@@ -39,7 +39,9 @@ path = os.path.join(base, 'settings.yaml')
 env = Yamz(path)
 prod_env = env.load("production")
 
-prod_env.MYSQL_DB_HOST
+prod_env.MYSQL_DB_HOST # 1.2.3.4
+
+prod_env.YAMZ_ENV # production
 ```
 
 ### Contributions

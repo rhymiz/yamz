@@ -60,7 +60,7 @@ def _load(path: str, environment: str) -> dict:
     return defaults
 
 
-class Environment(object):
+class Yamz:
     """Will be deprecated in future versions"""
 
     def __init__(self, path: str):
@@ -77,7 +77,3 @@ class Environment(object):
             raise YamzEnvironmentError("Tried to access key `%s` before "
                                        "environment was loaded!" % key)
         return self._settings[key]
-
-
-class Yamz(Environment):
-    pass

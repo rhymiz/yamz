@@ -1,4 +1,4 @@
-from .environment import Environment, Yamz
+from .environment import Yamz
 
 
-__all__ = ['Environment', 'Yamz']
+__all__ = ['Yamz']

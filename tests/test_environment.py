@@ -11,7 +11,7 @@ class YamzTestCase(unittest.TestCase):
     def setUp(self):
         base = os.path.abspath(pathlib.Path(__file__).parent)
         path = os.path.join(base, 'settings.yaml')
-        self.environment = Yamz(path)
+        self.yamz = Yamz(path)
         self.bad_environment = Yamz("/fake/path/settings.yaml")
 
     def test_file_not_found(self):
@@ -29,7 +29,7 @@ class YamzTestCase(unittest.TestCase):
 
     def test_load_environment(self):
         os.environ.setdefault("TEST", "/fake/home")
-        self.environment.load("global")
-        self.assertEqual(self.environment.TEST, "/fake/home")
-        self.assertEqual(self.environment.TEST_NUM, 12)
-        self.assertEqual(self.environment.YAMZ_ENV, 'global')
+        self.yamz.load("global")
+        self.assertEqual(self.yamz.TEST, "/fake/home")
+        self.assertEqual(self.yamz.TEST_NUM, 12)
+        self.assertEqual(self.yamz.YAMZ_ENV, 'global')

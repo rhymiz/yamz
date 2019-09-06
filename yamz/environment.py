@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import Iterable
 
 import yaml
 
@@ -61,7 +62,6 @@ def _load(path: str, environment: str) -> dict:
 
 
 class Yamz:
-    """Will be deprecated in future versions"""
 
     def __init__(self, path: str):
         self.path = path
@@ -77,3 +77,6 @@ class Yamz:
             raise YamzEnvironmentError("Tried to access key `%s` before "
                                        "environment was loaded!" % key)
         return self._settings[key]
+
+    def __dir__(self) -> Iterable[str]:
+        return [k for k in self._settings.keys() if k.isupper()]

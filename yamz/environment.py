@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Dict, Iterable
 
 import yaml
 
@@ -12,14 +12,12 @@ logging.basicConfig(format=FORMAT)
 logger = logging.getLogger("Yamz")
 logger.setLevel(logging.INFO)
 
-GLOBAL_KEY_NAME = 'global'
-
 
 class YamzEnvironmentError(RuntimeError):
     pass
 
 
-def _load_config(path: str) -> dict:
+def _load_config(path: str) -> Dict[str, Dict[str, Any]]:
     if not Path(path).exists():
         raise YamzEnvironmentError("%s was not found!" % path)
 
@@ -38,22 +36,22 @@ def _parse_value(value: str) -> str:
     return value
 
 
-def _build(conf: dict) -> dict:
+def _build(conf) -> Dict[str, Any]:
     parsed_conf = {}
     for k, v in conf.items():
         parsed_conf[k] = _parse_value(v)
     return parsed_conf
 
 
-def _load(path: str, environment: str) -> dict:
+def _load(path: str, environment: str) -> Dict:
     conf = _load_config(path)
     if environment not in conf:
         raise YamzEnvironmentError("environment %s does not exist "
                                    "in settings.yaml" % environment)
 
     defaults = {}
-    if GLOBAL_KEY_NAME in conf:
-        defaults = _build(conf[GLOBAL_KEY_NAME])
+    if 'global' in conf:
+        defaults = _build(conf['global'])
 
     env = _build(conf[environment])
     defaults.update(env)
@@ -62,15 +60,20 @@ def _load(path: str, environment: str) -> dict:
 
 
 class Yamz:
-
     def __init__(self, path: str):
         self.path = path
         self._loaded = False
         self._settings = {}
 
     def load(self, environment: str) -> None:
+        settings = _load(self.path, environment)
+        for k, v in settings.items():
+            setattr(self, k, v)
+            self._settings[k] = v
         self._loaded = True
-        self._settings = _load(self.path, environment)
+
+    def get_setting_dict(self):
+        return self._settings
 
     def __getattr__(self, key: str) -> str:
         if not self._loaded:
@@ -79,4 +82,4 @@ class Yamz:
         return self._settings[key]
 
     def __dir__(self) -> Iterable[str]:
-        return [k for k in self._settings.keys() if k.isupper()]
+        return [k for k in self.__dict__.keys() if k.isupper()]

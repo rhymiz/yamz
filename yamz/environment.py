@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict, Iterable
+from typing import Any, Dict, Iterable, Optional
 
 import yaml
 
@@ -31,7 +31,7 @@ def _parse_value(value: str) -> str:
         env_key = value[1:]
         env_value = os.environ.get(env_key)
         if not env_value:
-            logger.info("Environment variable '{0}' was not found".format(env_key))
+            logger.info("Environment variable %s was not found" % env_key)
         return env_value
     return value
 
@@ -46,8 +46,7 @@ def _build(conf) -> Dict[str, Any]:
 def _load(path: str, environment: str) -> Dict:
     conf = _load_config(path)
     if environment not in conf:
-        raise YamzEnvironmentError("environment %s does not exist "
-                                   "in settings.yaml" % environment)
+        raise YamzEnvironmentError("environment %s does not exist in %s" % (environment, path))
 
     defaults = {}
     if 'global' in conf:
@@ -60,7 +59,7 @@ def _load(path: str, environment: str) -> Dict:
 
 
 class Yamz:
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
         self.path = path
         self._loaded = False
         self._settings = {}
@@ -68,18 +67,25 @@ class Yamz:
     def load(self, environment: str) -> None:
         settings = _load(self.path, environment)
         for k, v in settings.items():
-            setattr(self, k, v)
             self._settings[k] = v
         self._loaded = True
 
-    def get_setting_dict(self):
+    def get_setting_dict(self) -> Dict[str, Any]:
         return self._settings
 
-    def __getattr__(self, key: str) -> str:
+    def __getattr__(self, item: str) -> Optional[Any]:
+        # probably a better way to do this
+        if item.startswith('__'):
+            return None
+
         if not self._loaded:
             raise YamzEnvironmentError("Tried to access key `%s` before "
-                                       "environment was loaded!" % key)
-        return self._settings[key]
+                                       "environment was loaded!" % item)
+        return self._settings.get(item)
 
     def __dir__(self) -> Iterable[str]:
-        return [k for k in self.__dict__.keys() if k.isupper()]
+        class_dir = list(super().__dir__())
+        if not self._loaded:
+            return class_dir
+        settings_dir = [k for k in self._settings.keys() if k.isupper()]
+        return class_dir + settings_dir

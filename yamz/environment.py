@@ -81,7 +81,7 @@ class Yamz:
         if not self._loaded:
             raise YamzEnvironmentError("Tried to access key `%s` before "
                                        "environment was loaded!" % item)
-        return self._settings.get(item)
+        return self._settings[item]
 
     def __dir__(self) -> Iterable[str]:
         class_dir = list(super().__dir__())

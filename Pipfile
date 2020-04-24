@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 twine = "*"
 pytest = "==4.0.2"
+flake8 = "*"
 
 [packages]
 PyYAML = "==5.1"

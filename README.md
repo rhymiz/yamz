@@ -1,6 +1,7 @@
 ## Yamz
 An easy way to manage environment specific configuration in Python using PyYAML.
 
+![Python package](https://github.com/rhymiz/yamz/workflows/Python%20package/badge.svg?branch=master)
 
 ### Requirements
 - Python >=3.5

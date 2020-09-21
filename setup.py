@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -11,7 +11,7 @@ setup(name='yamz',
       long_description_content_type='text/markdown',
       author='Lemuel Boyce',
       author_email='lemuelboyce@gmail.com',
-      packages=['yamz'],
+      packages=find_packages(exclude=['tests']),
       url='https://github.com/rhymiz/yamz',
       include_package_data=True,
       zip_safe=False,

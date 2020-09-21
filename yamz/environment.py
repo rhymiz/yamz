@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Optional, Type
 
 from yamz.errors import YamzEnvironmentError
 from yamz.providers.base import BaseProvider
@@ -6,7 +6,7 @@ from yamz.providers.default import YamlProvider
 
 
 class Yamz:
-    def __init__(self, path: str = None, provider=YamlProvider) -> None:
+    def __init__(self, path: str = None, provider: Type[BaseProvider] = YamlProvider) -> None:
         assert issubclass(provider, BaseProvider)
 
         self.path = path

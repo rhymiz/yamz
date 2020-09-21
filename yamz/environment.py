@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from yamz.errors import YamzEnvironmentError
 from yamz.providers.base import BaseProvider
@@ -19,15 +19,9 @@ class Yamz:
         self._provider = provider
         self._loaded = True
 
-    def get_setting_dict(self) -> Dict[str, Any]:
-        return self._settings
-
     def __getattr__(self, item: str) -> Optional[Any]:
-        # probably a better way to do this
-        if item.startswith('__'):
-            return None
-
         if not self._loaded:
-            raise YamzEnvironmentError("Tried to access key `%s` before "
-                                       "environment was loaded!" % item)
+            raise YamzEnvironmentError(
+                "Tried to access key `%s` before "
+                "environment was loaded!" % item)
         return self._provider.read(item)

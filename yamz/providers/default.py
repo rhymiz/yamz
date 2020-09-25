@@ -17,11 +17,14 @@ class YamlProvider(BaseProvider):
     def setup(self) -> None:
         self._data = self._load(self.path, self.environment)
 
-    def write(self, key, data):
+    def write(self, key: str, data):
         raise NotImplemented("can't write to a YAML file")
 
-    def read(self, key):
+    def read(self, key: str):
         return self._data.get(key)
+
+    def get_data(self) -> Dict[str, Any]:
+        return self._data
 
     def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
         if not Path(path).exists():

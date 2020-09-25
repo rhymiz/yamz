@@ -14,6 +14,10 @@ class Yamz:
         self._provider: Optional[BaseProvider] = None
         self._provider_class = provider
 
+    @property
+    def data(self):
+        return self._provider.get_data()
+
     def load(self, environment: str) -> None:
         provider = self._provider_class(environment=environment, path=self.path)
         self._provider = provider

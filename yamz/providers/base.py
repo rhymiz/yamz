@@ -19,3 +19,10 @@ class BaseProvider:
     @abstractmethod
     def write(self, key, data):
         pass
+
+    def get_data(self):
+        """
+        Optionally return a dictionary of
+        all the loaded settings.
+        """
+        pass

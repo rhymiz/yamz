@@ -6,7 +6,8 @@ from yamz.providers.default import YamlProvider
 
 
 class Yamz:
-    def __init__(self, path: str = None, provider: Type[BaseProvider] = YamlProvider) -> None:
+    def __init__(self, path: str = None,
+                 provider: Type[BaseProvider] = YamlProvider) -> None:
         assert issubclass(provider, BaseProvider)
 
         self.path = path

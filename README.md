@@ -1,6 +1,7 @@
 ## Yamz
 An easy way to manage environment specific configurations.
 
+![build](https://github.com/rhymiz/yamz/workflows/build/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/rhymiz/yamz/badge.svg?branch=master)](https://coveralls.io/github/rhymiz/yamz?branch=master)
 
 ### Requirements
 - Python >=3.6

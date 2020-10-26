@@ -39,7 +39,7 @@ jobs:
         pipenv run pytest -v
     - name: Check coverage
       run: |
-        pipenv run coverage run -m pytest tests/
+        pipenv run coverage run --source=yamz -m pytest tests/
         pipenv run coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

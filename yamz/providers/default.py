@@ -1,8 +1,7 @@
+import json
 import os
 from pathlib import Path
 from typing import Any, Dict
-
-import yaml
 
 from yamz.errors import YamzEnvironmentError
 from yamz.logger import logger
@@ -10,6 +9,11 @@ from yamz.providers.base import BaseProvider
 
 
 class YamlProvider(BaseProvider):
+    """
+    Provider for reading configurations
+    from a JSON file.
+    """
+
     def __init__(self, *args, **kwargs):
         self._data = {}
         super().__init__(*args, **kwargs)
@@ -18,7 +22,10 @@ class YamlProvider(BaseProvider):
         self._data = self._load(self.path, self.environment)
 
     def write(self, key: str, data):
-        raise NotImplemented("can't write to a YAML file")
+        raise NotImplemented(
+            "writing to or updating a YAML file "
+            "is currently unsupported.",
+        )
 
     def read(self, key: str):
         return self._data.get(key)
@@ -27,6 +34,13 @@ class YamlProvider(BaseProvider):
         return self._data
 
     def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
+        try:
+            import yaml
+        except ImportError:
+            raise YamzEnvironmentError(
+                "pip install PyYAML to use YamlProvider",
+            )
+
         if not Path(path).exists():
             raise YamzEnvironmentError("%s was not found!" % path)
 
@@ -63,3 +77,18 @@ class YamlProvider(BaseProvider):
         defaults.update(env)
         defaults['YAMZ_ENV'] = environment
         return defaults
+
+
+class JsonProvider(YamlProvider):
+    """
+    Provider for reading configurations
+    from a JSON file.
+    """
+
+    def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
+        if not Path(path).exists():
+            raise YamzEnvironmentError("%s was not found!" % path)
+
+        with open(path, 'r') as f:
+            config = json.loads(f.read())
+        return config

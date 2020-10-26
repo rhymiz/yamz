@@ -2,6 +2,10 @@ from abc import abstractmethod
 
 
 class BaseProvider:
+    """
+    Base class for building providers.
+    """
+
     def __init__(self, environment, path=None):
         self.path = path
         self.environment = environment

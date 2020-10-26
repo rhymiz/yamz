@@ -1,0 +1,6 @@
+{
+  "global": {
+    "TEST": "$TEST",
+    "TEST_NUM": 12
+  }
+}

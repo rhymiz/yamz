@@ -40,4 +40,4 @@ jobs:
     - name: Check coverage
       run: |
         pipenv run coverage run -m pytest tests/
-        coveralls
+        pipenv run coveralls

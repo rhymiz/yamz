@@ -51,3 +51,8 @@ class YamlProviderTestCase(unittest.TestCase):
         }
 
         self.assertEqual(self.yamz.data, expected_data)
+
+    def test_write_to_file_raise_unimplemented_error(self):
+        self.yamz.load("global")
+        with self.assertRaises(NotImplementedError):
+            self.yamz.write('test', 'testing')

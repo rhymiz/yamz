@@ -24,6 +24,9 @@ class Yamz:
         self._provider = provider
         self._loaded = True
 
+    def write(self, key: str, data: Any) -> Optional[Any]:
+        return self._provider.write(key=key, data=data)
+
     def __getattr__(self, item: str) -> Optional[Any]:
         if not self._loaded:
             raise YamzEnvironmentError(

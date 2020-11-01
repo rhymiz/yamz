@@ -1,4 +1,7 @@
 from abc import abstractmethod
+from pathlib import Path
+
+from yamz.errors import YamzEnvironmentError
 
 
 class BaseProvider:
@@ -11,6 +14,10 @@ class BaseProvider:
         self.environment = environment
 
         self.setup()
+
+    def _validate_path(self):
+        if not Path(self.path).exists():
+            raise YamzEnvironmentError("%s was not found!" % self.path)
 
     @abstractmethod
     def setup(self) -> None:

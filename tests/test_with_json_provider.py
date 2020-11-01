@@ -1,5 +1,7 @@
+import json
 import os
 import pathlib
+import tempfile
 import unittest
 
 from yamz import Yamz
@@ -52,3 +54,20 @@ class JsonProviderTestCase(unittest.TestCase):
         }
 
         self.assertEqual(self.yamz.data, expected_data)
+
+    def test_write_to_file(self):
+        temp_file_path = os.path.join(tempfile.gettempdir(), 'settings.json')
+
+        with open(temp_file_path, 'w') as f:
+            f.write(json.dumps({'global': {}}))
+
+        yamz = Yamz(path=temp_file_path, provider=JsonProvider)
+        yamz.load('global')
+
+        yamz.write('TEST', 'TEST_VALUE')
+        expected_data = {'TEST': 'TEST_VALUE', 'YAMZ_ENV': 'global'}
+
+        self.assertEqual(yamz.data, expected_data)
+
+        with open(temp_file_path, 'r') as f:
+            self.assertEqual(json.loads(f.read()), {'global': {'TEST': 'TEST_VALUE'}})

@@ -1,6 +1,5 @@
 import json
 import os
-from pathlib import Path
 from typing import Any, Dict
 
 from yamz.errors import YamzEnvironmentError
@@ -19,10 +18,11 @@ class YamlProvider(BaseProvider):
         super().__init__(*args, **kwargs)
 
     def setup(self) -> None:
+        self._validate_path()
         self._data = self._load(self.path, self.environment)
 
-    def write(self, key: str, data):
-        raise NotImplemented(
+    def write(self, key: str, data: Any):
+        raise NotImplementedError(
             "writing to or updating a YAML file "
             "is currently unsupported.",
         )
@@ -41,9 +41,6 @@ class YamlProvider(BaseProvider):
                 "pip install PyYAML to use YamlProvider",
             )
 
-        if not Path(path).exists():
-            raise YamzEnvironmentError("%s was not found!" % path)
-
         with open(path, 'r') as f:
             config = yaml.full_load(f.read())
         return config
@@ -53,7 +50,7 @@ class YamlProvider(BaseProvider):
             env_key = value[1:]
             env_value = os.environ.get(env_key)
             if not env_value:
-                logger.info("Environment variable %s was not found" % env_key)
+                logger.warning("Environment variable %s was not found" % env_key)
             return env_value
         return value
 
@@ -85,10 +82,18 @@ class JsonProvider(YamlProvider):
     from a JSON file.
     """
 
-    def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
-        if not Path(path).exists():
-            raise YamzEnvironmentError("%s was not found!" % path)
+    def write(self, key: str, data: Any) -> None:
+        current = self._open(self.path)
+        current[self.environment][key] = data
 
+        self._data = current
+
+        with open(self.path, 'w') as f:
+            logger.info("writing to file: %s" % self.path)
+            f.write(json.dumps(current))
+
+    def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
+        self._validate_path()
         with open(path, 'r') as f:
             config = json.loads(f.read())
         return config

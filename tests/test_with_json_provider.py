@@ -1,5 +1,6 @@
 import os
 import pathlib
+import tempfile
 import unittest
 
 from yamz import Yamz
@@ -52,3 +53,6 @@ class JsonProviderTestCase(unittest.TestCase):
         }
 
         self.assertEqual(self.yamz.data, expected_data)
+
+    def test_write_to_file(self):
+        yamz = Yamz(path=tempfile.gettempdir())

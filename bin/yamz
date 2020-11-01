@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+
+if __name__ == '__main__':
+    from yamz.cli import main
+    import argparse
+
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument('action', metavar='N', type=str, choices=['read', 'write'])
+    parser.add_argument(
+        '--key', '-k',
+        type=str,
+        help="Configuration key that Yamz will be interacting with",
+        required=True,
+    )
+
+    parser.add_argument(
+        '--data', '-d',
+        type=str,
+        help="Value to write for the given configuration key",
+        required=False,
+    )
+
+    parser.add_argument(
+        '--environment', '-e',
+        type=str,
+        required=True,
+        help="The environment in which to perform your action"
+    )
+
+    parser.add_argument(
+        '--path',
+        type=str,
+        required=False,
+        help="A path to your configuration file, if loading from disk.",
+    )
+
+    parser.add_argument(
+        '--provider',
+        type=str,
+        required=False,
+        help="A string reference to a Provider class. Ex.: exampleproject.providers.MyProvider",
+    )
+
+    args = parser.parse_args()
+
+    main(action=args.action,
+         key=args.key,
+         data=args.data,
+         path=args.path,
+         provider=args.provider,
+         environment=args.environment,
+         )

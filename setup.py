@@ -16,6 +16,7 @@ setup(name='yamz',
       include_package_data=True,
       zip_safe=True,
       license='MIT',
+      scripts=['bin/yamz'],
       python_requires='>=3.6',
       install_requires=[],
       classifiers=[

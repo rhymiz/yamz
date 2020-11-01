@@ -1,8 +1,8 @@
 import logging
 
-FORMAT = '%(asctime)s %(levelname)s %(name)s - %(message)s'
+FORMAT = '%(name)s - %(message)s'
 
 logging.basicConfig(format=FORMAT)
 
-logger = logging.getLogger("Yamz")
+logger = logging.getLogger("yamz")
 logger.setLevel(logging.INFO)

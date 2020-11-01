@@ -86,11 +86,11 @@ class JsonProvider(YamlProvider):
         current = self._open(self.path)
         current[self.environment][key] = data
 
-        self._data = current
-
         with open(self.path, 'w') as f:
             logger.info("writing to file: %s" % self.path)
             f.write(json.dumps(current))
+
+        self._data[key] = data
 
     def _open(self, path: str) -> Dict[str, Dict[str, Any]]:
         self._validate_path()

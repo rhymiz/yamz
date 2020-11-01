@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8d6cd4db2bd9cca74d1f9a3fd589453281813abf2b6f2ffa933e208349124557"
+            "sha256": "809cc31a2ada5c49095b8ae8e4fc0e3d9cf1735015e4d94087f0db99ccfd7d75"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -32,10 +32,6 @@
             ],
             "index": "pypi",
             "version": "==5.1"
-        },
-        "yamz": {
-            "editable": true,
-            "path": "."
         }
     },
     "develop": {

@@ -6,3 +6,4 @@ dist/*
 yamz.egg-info/*
 .idea
 .coverage
+pythonenv*

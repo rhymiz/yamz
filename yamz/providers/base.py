@@ -20,18 +20,18 @@ class BaseProvider:
             raise YamzEnvironmentError("%s was not found!" % self.path)
 
     @abstractmethod
-    def setup(self) -> None:
+    def setup(self) -> None:  # pragma: no cover
         pass
 
     @abstractmethod
-    def read(self, key):
+    def read(self, key):  # pragma: no cover
         pass
 
     @abstractmethod
-    def write(self, key, data):
+    def write(self, key, data):  # pragma: no cover
         pass
 
-    def get_data(self):
+    def get_data(self):  # pragma: no cover
         """
         Optionally return a dictionary of
         all the loaded settings.

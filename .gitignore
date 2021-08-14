@@ -7,3 +7,4 @@ yamz.egg-info/*
 .idea
 .coverage
 pythonenv*
+.venv

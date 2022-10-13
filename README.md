@@ -2,6 +2,7 @@
 An easy way to manage environment specific configurations.
 
 ![build](https://github.com/rhymiz/yamz/workflows/build/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/rhymiz/yamz/badge.svg)](https://coveralls.io/github/rhymiz/yamz)
+[![Downloads](https://pepy.tech/badge/yamz)](https://pepy.tech/project/yamz)
 
 ### Requirements
 - Python >=3.6
